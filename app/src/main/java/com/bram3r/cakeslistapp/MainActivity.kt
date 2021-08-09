@@ -2,6 +2,7 @@ package com.bram3r.cakeslistapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bram3r.cakeslistapp.cakesList.CakesListFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

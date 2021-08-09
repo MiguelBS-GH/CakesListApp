@@ -1,7 +1,7 @@
-package com.bram3r.cakeslistapp
+package com.bram3r.cakeslistapp.cakesList
 
 import androidx.lifecycle.ViewModel
 
 class CakesListViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+
 }
