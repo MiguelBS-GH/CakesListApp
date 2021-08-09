@@ -15,8 +15,8 @@ class CakeAdapter(var cakes: List<Cake>) : RecyclerView.Adapter<CakeAdapter.View
     init {
         if (cakes.isEmpty())
             cakes = listOf(
-                Cake("Miguel", "Descripcion de Miguel", ""),
-                Cake("Alba", "Descripcion de Alba", "")
+                Cake("Miguel", "Descripcion de Miguel", "r"),
+                Cake("Alba", "Descripcion de Alba", "r")
             )
     }
 
@@ -43,7 +43,7 @@ class CakeAdapter(var cakes: List<Cake>) : RecyclerView.Adapter<CakeAdapter.View
             Glide.with(image)
                 .load(cake.image)
                 .circleCrop()
-                .error(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_launcher_background)
                 .into(image)
         }
     }
