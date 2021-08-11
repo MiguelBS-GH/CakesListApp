@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bram3r.cakeslistapp.common.isOnline
 import com.bram3r.cakeslistapp.databinding.CakesListFragmentBinding
 
 class CakesListFragment : Fragment() {
@@ -41,7 +43,12 @@ class CakesListFragment : Fragment() {
         adapter = CakeAdapter(emptyList(), requireContext())
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.updateCakesList()
+            if (isOnline(requireContext()))
+                viewModel.updateCakesList()
+            else {
+                Toast.makeText(requireContext(), "Error en la conexión", Toast.LENGTH_LONG).show()
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
         }
 
         viewModel.cakeList.observe(viewLifecycleOwner, Observer {
@@ -55,9 +62,15 @@ class CakesListFragment : Fragment() {
             }
         })
 
-        viewModel.updateCakesList()
+        if (isOnline(requireContext()))
+            viewModel.updateCakesList()
+        else {
+            Toast.makeText(requireContext(), "Error en la conexión", Toast.LENGTH_LONG).show()
+            binding.progressBar.visibility = View.GONE
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
         binding.cakesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.cakesRecyclerView.adapter = adapter
     }
-
 }
