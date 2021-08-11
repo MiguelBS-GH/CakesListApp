@@ -36,12 +36,20 @@ class CakesListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CakesListViewModel::class.java)
 
+        binding.progressBar.visibility = View.VISIBLE
+
         adapter = CakeAdapter(emptyList(), requireContext())
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.updateCakesList()
+        }
 
         viewModel.cakeList.observe(viewLifecycleOwner, Observer {
             try {
                 adapter.cakes = it
                 binding.cakesRecyclerView.adapter = adapter
+                binding.progressBar.visibility = View.GONE
+                binding.swipeRefreshLayout.isRefreshing = false
             }catch (e: Error) {
                 Log.e("TAG", "Error al actualizar cakes")
             }

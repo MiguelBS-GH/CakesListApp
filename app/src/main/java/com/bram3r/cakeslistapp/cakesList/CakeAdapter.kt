@@ -14,13 +14,6 @@ import com.bumptech.glide.Glide
 
 class CakeAdapter(var cakes: List<Cake>, val context: Context) : RecyclerView.Adapter<CakeAdapter.ViewHolder>() {
 
-    init {
-        if (cakes.isEmpty())
-            cakes = listOf(
-                Cake("Miguel", "Descripcion de Miguel", "r"),
-                Cake("Alba", "Descripcion de Alba", "r")
-            )
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.cake_list_item, parent, false)
