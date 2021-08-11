@@ -1,5 +1,7 @@
 package com.bram3r.cakeslistapp.cakesList
 
+import android.app.Dialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +12,7 @@ import com.bram3r.cakeslistapp.R
 import com.bram3r.cakeslistapp.model.Cake
 import com.bumptech.glide.Glide
 
-class CakeAdapter(var cakes: List<Cake>) : RecyclerView.Adapter<CakeAdapter.ViewHolder>() {
+class CakeAdapter(var cakes: List<Cake>, val context: Context) : RecyclerView.Adapter<CakeAdapter.ViewHolder>() {
 
     init {
         if (cakes.isEmpty())
@@ -34,7 +36,7 @@ class CakeAdapter(var cakes: List<Cake>) : RecyclerView.Adapter<CakeAdapter.View
 
     override fun getItemCount(): Int = cakes.size
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val name: TextView = view.findViewById(R.id.cakeNameTextView)
         private val image: ImageView = view.findViewById(R.id.cakeImageView)
 
@@ -45,8 +47,19 @@ class CakeAdapter(var cakes: List<Cake>) : RecyclerView.Adapter<CakeAdapter.View
                 .circleCrop()
                 .error(R.drawable.ic_launcher_background)
                 .into(image)
+            itemView.setOnClickListener {
+                showDescDialog(cake.title ?: "Name", cake.desc ?: "Muy buena")
+            }
         }
     }
 
+    private fun showDescDialog(title: String, desc: String) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.cake_desc_dialog)
+        dialog.setTitle(title)
+        val descTV: TextView = dialog.findViewById(R.id.cakeDescTextView)
+        descTV.text = desc
+        dialog.show()
+    }
 
 }

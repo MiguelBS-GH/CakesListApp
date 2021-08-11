@@ -36,7 +36,7 @@ class CakesListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CakesListViewModel::class.java)
 
-        adapter = CakeAdapter(emptyList())
+        adapter = CakeAdapter(emptyList(), requireContext())
 
         viewModel.cakeList.observe(viewLifecycleOwner, Observer {
             try {
