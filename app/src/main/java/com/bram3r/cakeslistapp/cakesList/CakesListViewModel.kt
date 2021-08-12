@@ -24,19 +24,19 @@ class CakesListViewModel : ViewModel() {
     // Descargar datos y actualizar lista de tartas
     fun updateCakesList() {
         val retrofitInstance = Retrofit.getInstance().create(RetrofitService::class.java)
-        val call = retrofitInstance.getCakesList()
+        val call = retrofitInstance.getCakesList() // Llamada a todas las tartas
         try {
             call.enqueue(object : Callback<CakeList> {
                 override fun onResponse(call: Call<CakeList>, response: Response<CakeList>) {
                     if (response.isSuccessful) {
                         Log.e("TAG", "isSuccessful")
-                        _cakeList.value = response.body()!!.sortedBy { it.title }.distinctBy { it.title }
+                        // Lista de tartas (eliminadas repetidas y ordenadas por nombre)
+                        _cakeList.value = response.body()!!.distinctBy { it.title }.sortedBy { it.title }
                     } else {
                         Log.e("TAG", "Fail: Respuesta fallida")
                         status.value = "Respuesta fallida"
                     }
                 }
-
                 override fun onFailure(call: Call<CakeList>, t: Throwable) {
                     Log.e("TAG", "onFailure: ${t.message}")
                     status.value = "Fallo al descargar la lista"

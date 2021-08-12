@@ -9,6 +9,7 @@ class Retrofit {
 
         val URL_BASE = "https://gist.githubusercontent.com/"
 
+        // Instancia de retrofit
         fun getInstance(): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(URL_BASE)

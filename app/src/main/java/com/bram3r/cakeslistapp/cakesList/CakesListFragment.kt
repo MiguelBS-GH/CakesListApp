@@ -38,23 +38,28 @@ class CakesListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CakesListViewModel::class.java)
 
+        // Visible hasta que se carguen los datos o de error
         binding.progressBar.visibility = View.VISIBLE
+        // Invisible hasta que de error
         binding.swipeTextView.visibility = View.GONE
 
+        // Le damos una lista vacia
         adapter = CakeAdapter(emptyList(), requireContext())
 
+        // Swipe para actualizar
         binding.swipeRefreshLayout.setOnRefreshListener {
-            if (isOnline(requireContext())) {
+            if (isOnline(requireContext())) { // Internet OK
                 viewModel.updateCakesList()
                 binding.swipeTextView.visibility = View.GONE
             }
-            else {
+            else { // No internet
                 Toast.makeText(requireContext(), "Error en la conexión", Toast.LENGTH_LONG).show()
                 binding.swipeRefreshLayout.isRefreshing = false
                 binding.swipeTextView.visibility = View.VISIBLE
             }
         }
 
+        // Observar cambios en lista para actualizar UI
         viewModel.cakeList.observe(viewLifecycleOwner, Observer {
             try {
                 adapter.cakes = it
@@ -66,6 +71,7 @@ class CakesListFragment : Fragment() {
             }
         })
 
+        // Observar errores
         viewModel.status.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
@@ -76,9 +82,10 @@ class CakesListFragment : Fragment() {
             }
         })
 
-        if (isOnline(requireContext()))
+        // Actualizamos lista
+        if (isOnline(requireContext())) // Internet
             viewModel.updateCakesList()
-        else {
+        else { // No internet
             Toast.makeText(requireContext(), "Error en la conexión", Toast.LENGTH_LONG).show()
             binding.progressBar.visibility = View.GONE
             binding.swipeRefreshLayout.isRefreshing = false

@@ -33,6 +33,7 @@ class CakeAdapter(var cakes: List<Cake>, val context: Context) : RecyclerView.Ad
         private val name: TextView = view.findViewById(R.id.cakeNameTextView)
         private val image: ImageView = view.findViewById(R.id.cakeImageView)
 
+        // Rellenamos fila
         fun bind(cake: Cake) {
             name.text = cake.title
             Glide.with(image)
@@ -46,6 +47,7 @@ class CakeAdapter(var cakes: List<Cake>, val context: Context) : RecyclerView.Ad
         }
     }
 
+    // Dialogo para cuando pulsamos en una tarta
     private fun showDescDialog(title: String, desc: String) {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.cake_desc_dialog)
