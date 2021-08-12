@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CakesListApp</string>
+    <string name="swipe">Desliza hacia abajo para actualizar</string>
 </resources>

@@ -39,15 +39,19 @@ class CakesListFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(CakesListViewModel::class.java)
 
         binding.progressBar.visibility = View.VISIBLE
+        binding.swipeTextView.visibility = View.GONE
 
         adapter = CakeAdapter(emptyList(), requireContext())
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            if (isOnline(requireContext()))
+            if (isOnline(requireContext())) {
                 viewModel.updateCakesList()
+                binding.swipeTextView.visibility = View.GONE
+            }
             else {
                 Toast.makeText(requireContext(), "Error en la conexión", Toast.LENGTH_LONG).show()
                 binding.swipeRefreshLayout.isRefreshing = false
+                binding.swipeTextView.visibility = View.VISIBLE
             }
         }
 
@@ -59,6 +63,16 @@ class CakesListFragment : Fragment() {
                 binding.swipeRefreshLayout.isRefreshing = false
             }catch (e: Error) {
                 Log.e("TAG", "Error al actualizar cakes")
+            }
+        })
+
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
+                viewModel.status.value = null
+                binding.swipeTextView.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         })
 
